@@ -1,4 +1,4 @@
-{% extends "avadoc/base_g.html" %}
+{% extends "avadoc/base.html" %}
 
 {% block corpo %}
     {% load crispy_forms_tags %}
@@ -8,7 +8,8 @@
         <form method="POST" enctype="multipart/form-data" class="row" >
 
             {% csrf_token %}
-            <article class="col-lg-6 w-75 h-100  p-4" style="border: 1px solid #6f42c1;border-radius: 50px">
+            <fieldset class="col-lg-6 w-75 h-100  p-3" style="border: 1px solid #6f42c1;border-radius: 50px">
+                <legend>Formulário de Avalação Docente</legend>
 
 
                 <h6 class="small pb-3">
@@ -365,12 +366,13 @@
                         {% render_field form.postura_avadoc type="radio" id="nota60" name="postura" value="10" %}
                     </div>
                 </label>
-            </article>
+            </fieldset>
 
 
             {% render_field form.id_doc type="hidden" name="id_doc" value=docente.cod_docente %}
             {% render_field form.user_avadoc type="hidden" name="user_avadoc" value=request.user.username %}
-            <div class="pt-1 col-lg-6 w-25 h-100 " style="margin-top: 200px;">
+            <div class="pt-1 col-lg-6 col-sm-12 w-25 h-100 " style="margin-top: 200px;">
+
 
                 {% for p in p_ava %}
                     {{ p.id_doc }}
@@ -379,10 +381,10 @@
                 {% if form.cod_docente == p_ava.id_doc and p_ava.user_avadoc == request.user.username %}
                     <button disabled class="btn bg-secondary p-3 mb-5">Avaliar</button>
                 {% else %}
-                    <input type="submit" value="Avaliar" class="btn bg-success p-3 mb-5">
+                    <input type="submit" value="Avaliar" class="btn btn-success input-group p-3 mb-5">
                 {% endif %}
 
-                <button disabled class="btn btn-primary"> {{ form.id_docente }}</button>
+                <button disabled class="btn btn-outline-info"> {{ form.id_docente }}</button>
             </div>
             {% if form.errors %}
                 <p>Houve erros no formulário. Corrija-os antes de enviar.</p>

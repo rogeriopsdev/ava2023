@@ -1,62 +1,67 @@
-{% extends "avadoc/base_g.html" %}
+{% extends "avadoc/base.html" %}
 
 {% block corpo %}
- <div class="row">
-    {% for discente in discentes %}
+    <div class="row">
+        {% for discente in discentes %}
 
-        <div class="col-4">
+            <div class="col-4">
 
-        </div>
-        <div class="col-4">
-            <div style="margin-top: 30px; border-radius: 50px;border: solid 2px rgb(197,1,226);font-size: small"
-                 class=" card p-5">
-
-
-                <div class="col-12">
+            </div>
+            <div class="col-4">
+                <div style="margin-top: 30px; border-radius: 50px;border: solid 2px rgb(197,1,226);font-size: small"
+                     class=" card p-5">
 
 
-                    <label for='matricula'>Matrícula:
-                        <div id="matricula">{{ discente.mat_discente }}</div>
-                    </label>
+                    <div class="col-12">
+
+
+                        <label for='matricula'>Matrícula:
+                            <div id="matricula">{{ discente.mat_discente }}</div>
+                        </label>
+
+                    </div>
+                    <div>
+                        <label for='nome'>Nome:
+                            <div id="nome" class="card-header">{{ discente.nome_discente }}</div>
+                        </label>
+                    </div>
+
+                    <div class="col-4">
+                        <label for='ingresso'>Ingresso:
+                            <div id="ingresso">{{ discente.ingresso_discente }}</div>
+                        </label>
+
+                        <label for='campus'>Campus:
+                            <div id="campus">{{ discente.campus_discente }}</div>
+                        </label>
+                        <label for='status'>Status:
+                            <div id="status">{{ discente.status_discente }}</div>
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <label for='curso' style="font-weight: bold">Curso:
+                            <div id="curso">{{ discente.desc_curso_discente }}</div>
+                        </label>
+                    </div>
+
+
+                    <!--<td class="p-1 m-auto"><a href="" class="btn btn-warning"
+                                              style="font-size: 10px;">Editar</a></td>-->
+                    <a href="{% url 'index' discente.turma_discente %}" class="btn btn-primary "
+                       style="font-size: 10px;">Vincular</a>
+
 
                 </div>
-                <div>
-                    <label for='nome'>Nome:
-                        <div id="nome" class="card-header">{{ discente.nome_discente }}</div>
-                    </label>
-                </div>
-
-                <div class="col-4">
-                    <label for='ingresso'>Ingresso:
-                        <div id="ingresso">{{ discente.ingresso_discente }}</div>
-                    </label>
-
-                    <label for='campus'>Campus:
-                        <div id="campus">{{ discente.campus_discente }}</div>
-                    </label>
-                    <label for='status'>Status:
-                        <div id="status">{{ discente.status_discente }}</div>
-                    </label>
-                </div>
-                <div class="mb-3">
-                    <label for='curso' style="font-weight: bold">Curso:
-                        <div id="curso">{{ discente.desc_curso_discente }}</div>
-                    </label>
-                </div>
-
-
-                <!--<td class="p-1 m-auto"><a href="" class="btn btn-warning"
-                                          style="font-size: 10px;">Editar</a></td>-->
-                <a href="{% url 'index' discente.turma_discente %}" class="btn btn-primary "
-                   style="font-size: 10px;">Vincular</a>
-
 
             </div>
 
-        </div>
-        <div class="col-4">
+            <div class="col-4">
+                {% if request.user.is_superuser == True %}
+                    <a href="{% url 'editar_discente ' discente.id_discente %}"
+                       class="btn btn-outline-warning">Editar</a>
+                {% endif %}
+            </div>
 
-        </div>
-    {% endfor %}
+        {% endfor %}
 
 {% endblock corpo %}

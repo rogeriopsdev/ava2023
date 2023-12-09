@@ -1,18 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 
-from avadocApp.forms import DiscenteForm, AvadocForm, DiarioForm, ComponenteForm
+from avadocApp.forms import DiscenteForm, AvadocForm, DiarioForm, ComponenteForm, DocenteForm
 from . import models
 from .models import Discente, Docente, Diario, Curso, Campi, Componente, Nivel, Avadoc
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.shortcuts import redirect
+from django.contrib import messages
 from django.core.paginator import Paginator
 
 import sqlite3
 
 
 # Create your views here.
+# página de erro
 def pag_sem_prof(request):
     if request.user.is_authenticated:
         return render(request, 'avadoc/pag_sem_prof.html')
@@ -33,18 +35,17 @@ def home(request):
 
 def pag_sem_ava(request):
     if request.user.is_authenticated:
-        return render(request,'avadoc/pag_sem_ava.html')
+        return render(request, 'avadoc/pag_sem_ava.html')
     else:
         return render(request, "avadoc/pag_erro.html")
 
 
-
-
+# principal teste
 def index_t(request, turma):
-    if  request.user.is_authenticated:
+    if request.user.is_authenticated:
 
-        #avaliados = Avadoc.objects.all()
-        #profs =Docente.objects.all()
+        # avaliados = Avadoc.objects.all()
+        # profs =Docente.objects.all()
         docentes = Diario.objects.all().filter(turma_diario=turma).values()
         form = DiarioForm()
         if request.method == 'POST':
@@ -54,44 +55,113 @@ def index_t(request, turma):
                 obj.save()
                 form = DiarioForm()
 
-        #discentes = Discente.objects.all()
-        if len(docentes)==0:
+        # discentes = Discente.objects.all()
+        if len(docentes) == 0:
             return redirect('pag_sem_prof')
         else:
-            return render(request, 'avadoc/index_div_t.html', { 'docentes': docentes,   'form':form})
+            return render(request, 'avadoc/index_div_t.html', {'docentes': docentes, 'form': form})
     else:
         return render(request, "avadoc/pag_erro.html")
 
 
+# principal funcionando
 def index(request, turma):
-    if  request.user.is_authenticated:
+    if request.user.is_authenticated:
 
         avaliados = Avadoc.objects.all()
-        profs =Docente.objects.all()
+        profs = Docente.objects.all()
 
         docentes = Diario.objects.all().filter(turma_diario=turma).values()
         discentes = Discente.objects.all()
 
-        if len(docentes)==0:
+        if len(docentes) == 0:
             return redirect('pag_sem_prof')
         else:
-            return render(request, 'avadoc/index_div.html', {'avaliados': avaliados, 'docentes': docentes, 'discentes': discentes, 'profs':profs})
+            return render(request, 'avadoc/index_div.html',
+                          {'avaliados': avaliados, 'docentes': docentes, 'discentes': discentes, 'profs': profs})
     else:
-          return render(request, "avadoc/pag_erro.html")
+        return render(request, "avadoc/pag_erro.html")
 
 
+# páginas de inserção
 def new_discente(request):
     if request.user.is_authenticated:
-        form = DiscenteForm(request.POST)
+        form = DiscenteForm()
+
         if request.method == 'POST':
             form = DiscenteForm(request.POST, request.FILES)
+
             if form.is_valid():
                 obj = form.save()
                 obj.save()
-                form = DiscenteForm()
-            return render(request, 'avadoc/new_discente.html', {'form': form})
+                form = DiscenteForm()  # Redefine o formulário após o salvamento bem-sucedido
+
+        return render(request, 'avadoc/new_discente.html', {'form': form})
+
     else:
         return render(request, "avadoc/pag_erro.html")
+
+
+def new_docente(request):
+    if request.user.is_authenticated:
+        form = DocenteForm()
+
+        if request.method == 'POST':
+            form = DocenteForm(request.POST, request.FILES)
+
+            if form.is_valid():
+                obj = form.save()
+                obj.save()
+                form = DiscenteForm()  # Redefine o formulário após o salvamento bem-sucedido
+
+        return render(request, 'avadoc/new_docente.html', {'form': form})
+
+    else:
+        return render(request, "avadoc/pag_erro.html")
+
+
+# páginas de edição
+
+def editar_discente(request, id):
+    aluno = get_object_or_404(Discente, pk=id)
+    form = DiscenteForm(instance=aluno)
+    alunos = Discente.objects.all()
+
+    if (request.method == "POST"):
+        form = DiscenteForm(request.POST, request.FILES, instance=aluno)
+
+        if form.is_valid():
+            form.save()
+            return redirect('ver_discente')
+
+        else:
+
+            return render(request, "avadoc/editar_discente.html", {'form': form, 'aluno': aluno, 'alunos': alunos})
+    else:
+        return render(request, "avadoc/editar_discente.html", {'form': form, 'aluno': aluno, 'alunos': alunos})
+
+
+def editar_docente(request, id):
+    docente = get_object_or_404(Docente, pk=id)
+    form = DocenteForm(instance=docente)
+    docentes = Docente.objects.all()
+
+    if request.method == "POST":
+        form = DocenteForm(request.POST, request.FILES, instance=docente)
+
+        if form.is_valid():
+            form.save()
+
+            # Add a success message
+            messages.success(request, 'Docente editado com sucesso!')
+
+            return redirect('ver_docente')
+        else:
+            # Add an error message if the form is not valid
+            messages.error(request, 'Erro ao editar o docente. Verifique os campos.')
+
+    return render(request, "avadoc/editar_docente.html", {'form': form, 'docente': docente, 'docentes': docentes})
+
 
 
 def ver_discente(request):
@@ -109,7 +179,7 @@ def ver_discente(request):
 # Docente
 
 def ver_docente(request):
-    if  request.user.is_authenticated:
+    if request.user.is_authenticated:
         docentes = Docente.objects.all()
         return render(request, 'avadoc/ver_docente.html', {'docentes': docentes})
     else:
@@ -184,35 +254,34 @@ def avalia(request, id_docente):
         p_ava = Avadoc.objects.all()
         docente = get_object_or_404(Docente, cod_docente=id_docente)
         for p in p_ava:
-            usu =p.user_avadoc
+            usu = p.user_avadoc
             doc = p.id_doc
             if id_docente == doc:
                 return redirect('prof_avaliado')
 
-        #docente = get_object_or_404(Diario, siape_diario=id_docente)
+        # docente = get_object_or_404(Diario, siape_diario=id_docente)
 
-
-        us =request.user.username
-        #form = AvadocForm(instance=docente)
-        #if request.method == "POST":
-          #  form = AvadocForm(request.POST, request.FILES)
-           # if form.is_valid():
-           ##     obj = form.save()
-            #    obj.save()
-             #   return redirect('ver_discente')
-          #  else:
-              #  return render(request, 'avadoc/avalia.html', {'form': form, 'docente': docente, 'us':us, 'p_ava':p_ava})
-        #else:
-           # return render(request, 'avadoc/avalia.html', {'form': form, 'docente': docente})
-    #else:
-    #    return render(request, "avadoc/pag_erro.html")
+        us = request.user.username
+        # form = AvadocForm(instance=docente)
+        # if request.method == "POST":
+        #  form = AvadocForm(request.POST, request.FILES)
+        # if form.is_valid():
+        ##     obj = form.save()
+        #    obj.save()
+        #   return redirect('ver_discente')
+        #  else:
+        #  return render(request, 'avadoc/avalia.html', {'form': form, 'docente': docente, 'us':us, 'p_ava':p_ava})
+        # else:
+        # return render(request, 'avadoc/avalia.html', {'form': form, 'docente': docente})
+        # else:
+        #    return render(request, "avadoc/pag_erro.html")
 
         # ...
         form = AvadocForm(instance=docente)
         if request.method == "POST":
             form = AvadocForm(request.POST, request.FILES)
             if form.is_valid():
-                           # Lógica de processamento quando o formulário é válido
+                # Lógica de processamento quando o formulário é válido
                 obj = form.save()
                 obj.save()
                 return redirect('ver_discente')
@@ -221,18 +290,17 @@ def avalia(request, id_docente):
                 return render(request, 'avadoc/avalia.html',
                               {'form': form, 'docente': docente, 'us': us, 'p_ava': p_ava})
         else:
-                     # Restante da sua lógica para o método GET
+            # Restante da sua lógica para o método GET
             return render(request, 'avadoc/avalia.html', {'form': form, 'docente': docente})
     else:
         return render(request, "avadoc/pag_erro.html")
 
 
-
 def ver_avalia(request):
     if request.user.is_authenticated:
-        #avas =Docente.objects.all().values('id_docente','cod_docente','nome_docente')and Avadoc.objects.all().values('id_docente_id').distinct()
-        avas = Avadoc.objects.all().filter(id_doc= request.user.username)
-        if len(avas)==0:
+        # avas =Docente.objects.all().values('id_docente','cod_docente','nome_docente')and Avadoc.objects.all().values('id_docente_id').distinct()
+        avas = Avadoc.objects.all().filter(id_doc=request.user.username)
+        if len(avas) == 0:
             return redirect('pag_sem_ava')
         else:
             return render(request, 'avadoc/ver_avalia.html', {'avas': avas})
@@ -256,7 +324,6 @@ def avindividual(request, id_docente):
         if assiduidade == 0:
             return redirect('pag_sem_ava')
         else:
-
 
             planejamento = 0
             aulas = 0

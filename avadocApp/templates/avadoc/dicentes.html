@@ -10,7 +10,7 @@
             <td >Matrícula</td>
             <td >Nome</td>
             <td >Ação 1</td>
-            <!--<td >Ação 2</td>-->
+            <td >Ação 2</td>
         </tr>
         </thead>
 
@@ -22,8 +22,8 @@
             <td >{{ docente.id_docente }}</td>
             <td >{{ docente.cod_docente }}</td>
             <td >{{ docente.nome_docente }}</td>
-            <td class="p-1 m-auto"><a href="{% url 'editar_docente' docente.id_docente%}" class="btn btn-warning" style="font-size: 10px;">Editar</a></td>
-           <!-- <td  class="p-1 m-auto"><a href="{% url 'avalia' docente.cod_docente%}" class="btn btn-primary " style="font-size: 10px;">Avaliar</a></td>-->
+            <td class="p-1 m-auto"><a href="" class="btn btn-warning" style="font-size: 10px;">Editar</a></td>
+            <td  class="p-1 m-auto"><a href="{% url 'avalia' docente.cod_docente%}" class="btn btn-primary " style="font-size: 10px;">Avaliar</a></td>
 
         </tr>
     {% endfor %}

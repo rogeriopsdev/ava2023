@@ -17,11 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from avadocApp.views import new_discente, ver_discente, ver_docente, ver_diario, ver_campi, ver_curso,ver_componente, base
-from avadocApp.views import avadoc, avalia,ver_avalia,avindividual, index, new_componente,home, pag_sem_ava,pag_sem_prof, prof_avaliado
+from avadocApp.views import avadoc, avalia,ver_avalia,avindividual, index, new_componente,home, pag_sem_ava,pag_sem_prof, prof_avaliado,new_docente
+from avadocApp.views import editar_discente, editar_docente
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('new_discente/', new_discente, name='new_discente'),
+    path('new_docente/', new_docente, name='new_docente'),
+    path('editar_discente/<str:id>', editar_discente, name='editar_discente '),
+    path('editar_docente/<int:id>', editar_docente, name='editar_docente'),
     path('', home, name='home'),
     path('index/<str:turma>', index, name='index'),
     path('ver_discente/', ver_discente, name='ver_discente'),

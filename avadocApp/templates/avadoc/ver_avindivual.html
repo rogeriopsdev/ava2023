@@ -1,4 +1,4 @@
-{% extends "avadoc/base_g.html" %}
+{% extends "avadoc/base_G.html" %}
 
 {% block corpo %}
 
@@ -20,6 +20,20 @@
                         <td style=" ">Avaliações</td>
                         <td style=" ">Postura</td>
                         <td style=" ">Docente</td>
+                        <td style=" ">
+                            <div>
+                                <button id="btnPrint">Imprimir</button>
+
+                                <!-- Outro conteúdo da sua página aqui -->
+
+                                <script>
+                                    // JavaScript para acionar a função de impressão
+                                    document.getElementById('btnPrint').addEventListener('click', function () {
+                                        window.print();
+                                    });
+                                </script>
+                            </div>
+                        </td>
                         <!--<td style=" "></td>
                         <td style=""></td>-->
                     </tr>
@@ -40,6 +54,8 @@
                         <td style="">{{ ava.avaliacao_avadoc }}</td>
                         <td style="">{{ ava.postura_avadoc }}</td>
                         <td style="">{{ ava.id_docente }}</td>
+
+
                         <!--<td style="width: 180px; " class="p-1 m-auto"><a href="" class="btn btn-warning"
                                                                          style="font-size: 10px;">Editar</a></td>
                         <td style="width: 20px; " class="p-1 m-auto"><a href="" class="btn btn-primary "
@@ -109,8 +125,9 @@
             </script>
         </div>
     </div>
+
     <div class="row h-20">
-        <div class="col-lg-4">
+        <div class="col-lg-5">
             <canvas id="myChart_m"></canvas>
 
 
@@ -221,18 +238,27 @@
                 </script>
             </div>
         </div>
-    <div class="col-lg-4 " style="font-size: x-small">
-        <h6>Assiduidade : {{ assi_total }} pontos</h6>
-        <h6>Pontualidade : {{ planejamento }} pontos</h6>
-        <h6>Planejamento : {{ planejamento }} pontos</h6>
-        <h6>Realização de Aulas:  {{ aulas }} pontos</h6>
-        <h6>Avaliações: {{ avaliacao }} pontos</h6>
-        <h6>Postura: {{ postura }} pontos</h6>
-        <h6>Total de Avaliações: {{ qt }}</h6>
+        <div class="col-lg-3 row  ">
+            <div class="col-lg-6">
+            <h6 style="font-size: small">Assiduidade : {{ assi_total }} pontos</h6>
+            <h6 style="font-size: small">Pontualidade : {{ planejamento }} pontos</h6>
+            <h6 style="font-size: small">Planejamento : {{ planejamento }} pontos</h6>
+                </div>
+            <div class="col-lg-6">
+
+
+            <h6 style="font-size: small">Realização de Aulas: {{ aulas }} pontos</h6>
+            <h6 style="font-size: small">Avaliações: {{ avaliacao }} pontos</h6>
+            <h6 style="font-size: small">Postura: {{ postura }} pontos</h6>
+            <h6 style="font-size: small">Total de Avaliações: {{ qt }}</h6>
+                </div>
+
+
+        </div>
+
 
     </div>
 
-    </div>
 
-    </div>
+
 {% endblock corpo %}>

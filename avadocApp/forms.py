@@ -6,7 +6,13 @@ from .models import Docente,Discente,Diario,Campi, Curso, Componente, Nivel, Ava
 class DocenteForm(forms.ModelForm):
     class Meta:
         model=Docente
-        fields ='__all__'
+        fields =['id_docente','cod_docente', 'nome_docente']
+
+        id_docente = forms.IntegerField(label="Id_docente:")
+        cod_docente = forms.CharField(label="Matrícula Siape:")
+        nome_docente = forms.CharField(label="Nome:")
+
+
 
 
 class DiscenteForm(forms.ModelForm):
