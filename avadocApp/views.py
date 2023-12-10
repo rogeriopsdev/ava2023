@@ -66,7 +66,9 @@ def index_t(request, turma):
 
 # principal funcionando
 def index(request, turma):
+
     if request.user.is_authenticated:
+        msg = "Avaliados por você:"
 
         avaliados = Avadoc.objects.all()
         profs = Docente.objects.all()
@@ -74,11 +76,14 @@ def index(request, turma):
         docentes = Diario.objects.all().filter(turma_diario=turma).values()
         discentes = Discente.objects.all()
 
+
         if len(docentes) == 0:
             return redirect('pag_sem_prof')
         else:
+
             return render(request, 'avadoc/index_div.html',
-                          {'avaliados': avaliados, 'docentes': docentes, 'discentes': discentes, 'profs': profs})
+                          {'avaliados': avaliados, 'docentes': docentes, 'discentes': discentes, 'profs': profs, 'msg':msg})
+
     else:
         return render(request, "avadoc/pag_erro.html")
 

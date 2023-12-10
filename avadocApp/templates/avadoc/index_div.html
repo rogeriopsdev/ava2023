@@ -4,7 +4,7 @@
 {% block corpo %}
 
     <h3>Docentes</h3>
-     Avaliados por você:
+     {{ msg }}
             {% for av in avaliados %}
                 {% if av.user_avadoc == request.user.username %}
                     <div id="avaliado" class="btn btn-outline-primary mb-2" href=""> {{ av.id_docente }}</div>
