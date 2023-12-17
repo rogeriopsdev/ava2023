@@ -18,7 +18,9 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from avadocApp.views import new_discente, ver_discente, ver_docente, ver_diario, ver_campi, ver_curso,ver_componente, base
 from avadocApp.views import avadoc, avalia,ver_avalia,avindividual, index, new_componente,home, pag_sem_ava,pag_sem_prof, prof_avaliado,new_docente
-from avadocApp.views import editar_discente, editar_docente
+from avadocApp.views import editar_discente, editar_docente,logout
+from django.urls import path
+from  django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,7 +29,9 @@ urlpatterns = [
     path('editar_discente/<str:id>', editar_discente, name='editar_discente '),
     path('editar_docente/<int:id>', editar_docente, name='editar_docente'),
     path('', home, name='home'),
-    path('home/', home, name='home'),
+    path('logout/', auth_views.LogoutView.as_view(
+        template_name='avadoc/home.html'
+    ), name='logout'),
     path('index/<str:turma>', index, name='index'),
     path('ver_discente/', ver_discente, name='ver_discente'),
     path('ver_docente/', ver_docente, name='ver_docente'),

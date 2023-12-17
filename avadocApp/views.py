@@ -32,6 +32,9 @@ def prof_avaliado(request):
 def home(request):
     return render(request, 'avadoc/home.html')
 
+def logout(request):
+    return render(request, 'avadoc/home.html')
+
 
 def pag_sem_ava(request):
     if request.user.is_authenticated:
