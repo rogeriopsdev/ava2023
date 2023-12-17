@@ -27,6 +27,7 @@ urlpatterns = [
     path('editar_discente/<str:id>', editar_discente, name='editar_discente '),
     path('editar_docente/<int:id>', editar_docente, name='editar_docente'),
     path('', home, name='home'),
+    path('home/', home, name='home'),
     path('index/<str:turma>', index, name='index'),
     path('ver_discente/', ver_discente, name='ver_discente'),
     path('ver_docente/', ver_docente, name='ver_docente'),
