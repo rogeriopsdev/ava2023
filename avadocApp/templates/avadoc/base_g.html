@@ -126,10 +126,13 @@
 
                         <li class="dropdown-divider"></li>
 
+                          <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+
                         <li>
-                            <a href="{% url 'logout' %}" class="dropdown-item text-light" style="font-size: x-small"><i
-                                    class="material-icons align-middle" style="color:red">assignment_ind</i>Sair</a>
+                            <input type="submit" class="dropdown-item text-danger" value="Sair">
                         </li>
+                        </form>
                     </ul>
                     </li>
 
