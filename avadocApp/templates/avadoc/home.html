@@ -76,19 +76,23 @@
                                 {% if request.user.first_name == 'Discente' %}
                                     <a class="btn btn-warning btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder"
                                        href="{% url 'ver_discente' %}">Avaliar</a>
-                                    <a class="btn btn-secondary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder"
-                                       href="{% url 'logout' %}">Sair</a>
+                                    <form action="{% url 'logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="submit" value="Sair" class="btn btn-secondary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder">
+                                    </form>
                                 {% elif request.user.first_name == 'Docente' %}
                                     <a class="btn btn-success btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder"
                                        href="{% url 'ver_avalia' %}">Ver Avaliação</a>
-                                    <a class="btn btn-secondary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder"
-                                       href="{% url 'logout' %}">Sair</a>
+                                     <form action="{% url 'logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="submit" value="Sair" class="btn btn-secondary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder">
+                                    </form>
                                 {% else %}
                                     <a class="btn btn-success btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder"
                                        href="{% url 'ver_docente' %}">Adm</a>
                                     <form action="{% url 'logout' %}" method="post">
                                         {% csrf_token %}
-                                        <input type="submit" class="btn btn-secondary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder">Sair</input>
+                                        <input type="submit" value="Sair" class="btn btn-secondary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder">
                                     </form>
 
 
