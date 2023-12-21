@@ -71,7 +71,7 @@ def index_t(request, turma):
 def index(request, turma):
 
     if request.user.is_authenticated:
-        msg = "Avaliados por você:"
+        msg = ":"
 
         avaliados = Avadoc.objects.all()
         profs = Docente.objects.all()
@@ -261,11 +261,13 @@ def avalia(request, id_docente):
     if request.user.is_authenticated:
         p_ava = Avadoc.objects.all()
         docente = get_object_or_404(Docente, cod_docente=id_docente)
-        for p in p_ava:
-            usu = p.user_avadoc
-            doc = p.id_doc
-            if id_docente == doc:
-                return redirect('prof_avaliado')
+        if p_ava.filter(id_doc=id_docente, user_avadoc=request.user).exists():
+            return redirect('prof_avaliado')
+        #for p in p_ava:
+        #    usu = p.user_avadoc
+        #    doc = p.id_doc
+         #   if id_docente == doc:
+               #return redirect('prof_avaliado')
 
         # docente = get_object_or_404(Diario, siape_diario=id_docente)
 
@@ -304,16 +306,72 @@ def avalia(request, id_docente):
         return render(request, "avadoc/pag_erro.html")
 
 
-def ver_avalia(request):
+
+
+def avaliaa(request, id_docente):
+    if request.user.is_authenticated:
+        p_ava = Avadoc.objects.all()
+        docente = get_object_or_404(Docente, cod_docente=id_docente)
+
+        # Verifica se o usuário já avaliou o docente
+        if p_ava.filter(id_doc=id_docente, user_avadoc=request.user).exists():
+            return redirect('prof_avaliado')
+
+        us = request.user.username
+
+        # Lógica para processar o formulário quando o método da requisição é POST
+        if request.method == "POST":
+            form = AvadocForm(request.POST, request.FILES)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.user_avadoc = request.user
+                obj.id_doc = docente
+                obj.save()
+                return redirect('ver_discente')
+            else:
+                return render(request, 'avadoc/avalia.html',
+                              {'form': form, 'docente': docente, 'us': us, 'p_ava': p_ava})
+        else:
+            form = AvadocForm(instance=docente)
+            return render(request, 'avadoc/avalia.html', {'form': form, 'docente': docente, 'us': us, 'p_ava': p_ava})
+    else:
+        return render(request, "avadoc/pag_erro.html")
+
+
+
+def ver_avaliaa(request):
     if request.user.is_authenticated:
         # avas =Docente.objects.all().values('id_docente','cod_docente','nome_docente')and Avadoc.objects.all().values('id_docente_id').distinct()
-        avas = Avadoc.objects.all().filter(id_doc=request.user.username)
+        if request.user.is_superuser:
+            avas =Avadoc.objects.all()
+            return render(request, 'avadoc/ver_avalia.html', {'avas': avas})
+        else:
+            avas = Avadoc.objects.all().filter(id_doc=request.user.username)
         if len(avas) == 0:
             return redirect('pag_sem_ava')
         else:
             return render(request, 'avadoc/ver_avalia.html', {'avas': avas})
     else:
         return render(request, "avadoc/pag_erro.html")
+
+
+def ver_avalia(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            # If the user is a superuser, retrieve all Avadoc objects
+            avas = Avadoc.objects.all()
+        else:
+            # If the user is not a superuser, filter Avadoc objects based on user's id_doc
+            avas = Avadoc.objects.filter(id_doc=request.user.username)
+
+        # Check if there are no Avadoc objects for the user
+        if not avas.exists():
+            return redirect('pag_sem_ava')  # Redirect to the appropriate page when no Avadoc objects are found
+        else:
+            return render(request, 'avadoc/ver_avalia.html', {'avas': avas})
+    else:
+        return render(request, "avadoc/pag_erro.html")
+
 
 
 # ---------individual-----

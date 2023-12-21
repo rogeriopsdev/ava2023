@@ -4,7 +4,7 @@
     <h2>Avaliados:</h2>
     <div class="row">
         {% for ava in avas %}
-{% if request.user.username == ava.id_doc %}
+
             <div class="col-md-2">
                 <div class="card border-danger  mb-1">
 
@@ -32,7 +32,7 @@
 
                 </div>
             </div>
-{% endif %}
+
         {% endfor %}
     </div>
 
