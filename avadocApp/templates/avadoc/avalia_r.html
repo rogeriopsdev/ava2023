@@ -11,6 +11,7 @@
             <fieldset class="col-lg-6 col-md-8 col-sm-10 mx-auto mt-5 mb-5 p-3" style="border: 1px solid #6f42c1; border-radius: 15px;">
                 <legend>Formulário de Avaliação Docente</legend>
 
+
                 <h6 class="small pb-3">
                     1. O docente é ASSÍDUO, ou seja, não falta às aulas e quando falta, apresenta justificativa e
                     promove suas devidas reposições ou anteposições?
@@ -367,12 +368,7 @@
                 </label>
             </fieldset>
 
-
-            {% render_field form.id_doc type="hidden" name="id_doc" value=docente.cod_docente %}
-            {% render_field form.user_avadoc type="hidden" name="user_avadoc" value=request.user.username %}
             <div class="pt-1 col-lg-6 col-md-8 col-sm-10 mx-auto mt-5 mb-5">
-
-
                 {% for p in p_ava %}
                     {{ p.id_doc }}
                     {{ p.user_avadoc }}
@@ -383,17 +379,13 @@
                     <input type="submit" value="Avaliar" class="btn btn-success input-group p-3 mb-5">
                 {% endif %}
 
-                <button disabled class="btn btn-outline-info"> {{ form.id_docente }}</button>
+                <button disabled class="btn btn-outline-info">{{ form.id_docente }}</button>
             </div>
+
             {% if form.errors %}
                 <p>Houve erros no formulário. Corrija-os antes de enviar.</p>
             {% endif %}
         </form>
     </div>
-
-
-    <!--  --------------------------------------- -->
-
-
 
 {% endblock corpo %}

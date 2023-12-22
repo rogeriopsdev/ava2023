@@ -71,12 +71,12 @@
                         <div class="badge bg-gradient-primary-to-secondary text-white mb-4">
                             <div class="text-uppercase">Boa &middot; Avaliação &middot;!</div>
                         </div>
-                        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xxl-start mb-3">
+                        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xxl-start mb-3 ">
                             {% if request.user.is_authenticated %}
                                 {% if request.user.first_name == 'Discente' %}
                                     <a class="btn btn-warning btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder"
                                        href="{% url 'ver_discente' %}">Avaliar</a>
-                                    <form action="{% url 'logout' %}" method="post">
+                                    <form action="{% url 'logout' %}" method="post" class="mb-5">
                                         {% csrf_token %}
                                         <input type="submit" value="Sair" class="btn btn-secondary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder">
                                     </form>
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xxl-7">
+                <div class="col-xxl-7 mt-5">
                     <!-- Header profile picture-->
                     <div class="d-flex justify-content-center mt-5 mt-xxl-0">
                         <div class="profile bg-gradient-primary-to-secondary">

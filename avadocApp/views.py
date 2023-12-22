@@ -84,7 +84,7 @@ def index(request, turma):
             return redirect('pag_sem_prof')
         else:
 
-            return render(request, 'avadoc/index_div.html',
+            return render(request, 'avadoc/index_div_r.html',
                           {'avaliados': avaliados, 'docentes': docentes, 'discentes': discentes, 'profs': profs, 'msg':msg})
 
     else:
@@ -178,7 +178,7 @@ def ver_discente(request):
         us = request.user.last_name
         discentes = Discente.objects.all().filter(nome_discente__icontains=us)
         return render(request, 'avadoc/ver_discente.html', {'discentes': discentes})
-        print(us)
+
 
     else:
         return render(request, "avadoc/pag_erro.html")

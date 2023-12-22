@@ -1,5 +1,9 @@
 from django.shortcuts import render, redirect
 from .forms import UsuarioForm
+from django.contrib.auth.views import LoginView
+
+
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 def criar_usuario(request):
@@ -11,4 +15,6 @@ def criar_usuario(request):
             obj.save()
             return redirect('login')
     return render(request, 'usuarios/usuario.html',{'form':form})
+
+
 

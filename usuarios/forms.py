@@ -1,6 +1,7 @@
 from django import forms
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+
 
 class UsuarioForm(UserCreationForm):
     FIRST_NAME_CHOICES = [
@@ -21,3 +22,8 @@ class UsuarioForm(UserCreationForm):
         widget=forms.Select(attrs={'class': 'custom-select'}),
         initial='Discente'
     )
+
+
+
+
+

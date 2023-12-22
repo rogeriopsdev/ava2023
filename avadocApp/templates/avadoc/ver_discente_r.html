@@ -30,24 +30,13 @@
                         <div id="curso">{{ discente.desc_curso_discente }}</div>
                     </div>
 
+                    <a href="{% url 'index' discente.turma_discente %}" class="btn btn-primary mt-3" style="font-size: 10px;">Vincular</a>
 
-                    <!--<td class="p-1 m-auto"><a href="" class="btn btn-warning"
-                                              style="font-size: 10px;">Editar</a></td>-->
-                    <a href="{% url 'index' discente.turma_discente %}" class="btn btn-primary "
-                       style="font-size: 10px;">Vincular</a>
-
-
+                    {% if request.user.is_superuser == True %}
+                        <a href="{% url 'editar_discente' discente.id_discente %}" class="btn btn-outline-warning mt-3">Editar</a>
+                    {% endif %}
                 </div>
-
             </div>
-
-            <div class="col-lg-3">
-                {% if request.user.is_superuser == True %}
-                    <a href="{% url 'editar_discente ' discente.id_discente %}"
-                       class="btn btn-outline-warning">Editar</a>
-                {% endif %}
-            </div>
-
         {% endfor %}
-
+    </div>
 {% endblock corpo %}
