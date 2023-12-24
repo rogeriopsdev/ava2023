@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from avadocApp.views import new_discente, ver_discente, ver_docente, ver_diario, ver_campi, ver_curso,ver_componente, base
 from avadocApp.views import avadoc, avalia,ver_avalia,avindividual, index, new_componente,home, pag_sem_ava,pag_sem_prof, prof_avaliado,new_docente
-from avadocApp.views import editar_discente, editar_docente
+from avadocApp.views import editar_discente, editar_docente,rel_nivel
 from django.urls import path
 from  django.contrib.auth import views as auth_views
 
@@ -50,6 +50,7 @@ urlpatterns = [
     path('pag_sem_ava/', pag_sem_ava, name='pag_sem_ava'),
     path('pag_sem_prof/', pag_sem_prof, name='pag_sem_prof'),
     path('prof_avaliado/', prof_avaliado, name='prof_avaliado'),
+    path('rel_nivel/<int:id_doc>', rel_nivel, name='rel_nivel'),
     path('', include('usuarios.urls')),
 
     #path('ver_avalia/<int:id_docente>', ver_avalia, name='ver_avalia'),

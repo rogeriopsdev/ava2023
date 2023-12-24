@@ -474,3 +474,83 @@ def filtro_avalia(request):
         return render(request, 'avadoc/index.html', {'f': f})
     else:
         return render(request, "avadoc/pag_erro.html")
+
+
+
+def rel_nivel(request, id_doc):
+    if request.user.is_authenticated:
+        # avas = Avadoc.objects.all()
+        # id_docente = request.GET.get('search')
+        avaliados = Docente.objects.all()
+        # avas=Docente.objects.filter(avadoc__id_docente=id_docente) #and Avadoc.objects.all().filter(id_docente__cod_docente=id_docente)
+
+        avas = Avadoc.objects.filter(id_doc__icontains=id_doc)  # and Avadoc.objects.all().filter(id_docente__cod_docente=id_docente)
+
+        assiduidade = Avadoc.objects.all().filter(id_doc__icontains=id_doc)
+        turma = Discente.objects.all().filter(mat_discente=Avadoc.user_avadoc).values('turma_discente','mat_discente')
+        diario = Diario.objects.all().filter(siape_diario=id_doc).values('turma_diario','nome_curso_diario','turma_diario').distinct()
+
+        if assiduidade == 0:
+            return redirect('pag_sem_ava')
+        else:
+
+            planejamento = 0
+            aulas = 0
+            avaliacao = 0
+            postura = 0
+            assi_total = 0
+            pontulidade = 0
+            m_assiduidade = 0
+            m_planejamento = 0
+            m_aulas = 0
+            m_avaliacao = 0
+            m_postura = 0
+            m_pontualidade = 0
+            m_geral = 0
+
+            for dado in assiduidade:
+                assi_total += int(dado.assid_avadoc)
+                pontulidade += int(dado.pont_avadoc)
+                planejamento += int(dado.plan_avadoc)
+                aulas += int(dado.realiza_avadoc)
+                avaliacao += int(dado.avaliacao_avadoc)
+                postura += int(dado.postura_avadoc)
+                qtd = assi_total.bit_length()
+
+            qt = len(assiduidade)
+
+            #m_assiduidade = ((assi_total) / (qt))
+            #m_pontualidade = ((pontulidade) / (qt))
+            #m_planejamento = ((planejamento) / (qt))
+            #m_aulas = ((aulas) / (qt))
+            #m_avaliacao = ((avaliacao) / (qt))
+            #m_postura = ((postura) / (qt))
+            #m_geral = (m_assiduidade + m_pontualidade + m_planejamento + m_aulas + m_avaliacao + m_postura) / 6
+
+            print(m_assiduidade)
+            print(m_geral)
+
+            context = {'avas': avas,
+                       'avaliados': avaliados,
+                       'assi_total': assi_total,
+                       'pontulidade': pontulidade,
+                       'planejamento': planejamento,
+                       'aulas': aulas,
+                       'avaliacao': avaliacao,
+                       'postura': postura,
+                       'm_assiduidade': m_assiduidade,
+                       'm_pontualidade': m_planejamento,
+                       'm_planejamento': m_pontualidade,
+                       'm_aulas': m_aulas,
+                       'm_avaliacao': m_avaliacao,
+                       'm_postura': m_postura,
+                       'qt': qt,
+                       'm_geral': m_geral,
+                       'turma':turma,
+                       'diario':diario,
+                       }
+        return render(request, 'avadoc/rel_nivel.html', context)
+    else:
+        return render(request, "avadoc/pag_erro.html")
+
+
