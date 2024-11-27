@@ -27,6 +27,9 @@ SECRET_KEY = 'django-insecure-4q(u(seoy7_rzk_1u!=#$i_c1z@_=5(w0igwu6@h7tioi*_+03
 DEBUG = True
 
 ALLOWED_HOSTS = ['avadoc-syk9mjrh.b4a.run']
+CSRF_TRUSTED_ORIGINS = ['https://avadoc-syk9mjrh.b4a.run']
+
+
 
 
 # Application definition
@@ -53,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
