@@ -1,14 +1,27 @@
-# Use the official Python image as the base image
-FROM python:3.8
+# Usar uma imagem base oficial do Python
+FROM python:3.9-slim
 
-# Set the working directory in the container
+# Definir o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copy the application files into the working directory
+# Copiar o arquivo requirements.txt para o container
+# ADICIONADO: Certifique-se de que o arquivo requirements.txt exista na raiz do projeto local antes de buildar.
+COPY requirements.txt /app/requirements.txt
+
+# Instalar dependências listadas em requirements.txt
+# ADICIONADO: Validar a existência do arquivo antes de executar.
+RUN if [ -f "requirements.txt" ]; then \
+        pip install --no-cache-dir -r requirements.txt; \
+    else \
+        echo "Error: requirements.txt not found. Aborting build."; \
+        exit 1; \
+    fi
+
+# Atualizar o pip para a versão mais recente (opcional, mas recomendado)
+RUN pip install --upgrade pip
+
+# Copiar o restante do código do projeto para o container
 COPY . /app
 
-# Install the application dependencies
-RUN pip install -r requirements.txt
-
-# Define the entry point for the container
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Comando padrão para rodar o container
+CMD ["python", "app.py"]  # Substitua "app.py" pelo arquivo principal do seu projeto
