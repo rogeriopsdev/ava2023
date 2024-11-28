@@ -32,6 +32,15 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = False
 
+# Cookies de sessão
+SESSION_COOKIE_SECURE = True  # Cookies somente em HTTPS
+SESSION_COOKIE_SAMESITE = 'Lax'  # Restringe envio de cookies entre sites
+
+# Cookies de CSRF
+CSRF_COOKIE_SECURE = True  # Cookies de CSRF somente em HTTPS
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+
 
 
 
