@@ -480,3 +480,11 @@ def filtro_avalia(request):
 
 def media_con(request):
     return render()
+
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def logout_view(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('/login')  # Redirecione para a página inicial ou de login
