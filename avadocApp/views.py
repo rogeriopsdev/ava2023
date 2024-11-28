@@ -424,6 +424,8 @@ def avindividual(request, id_docente):
             m_postura = ((postura) / (qt))
             m_geral = (m_assiduidade + m_pontualidade + m_planejamento + m_aulas + m_avaliacao + m_postura) / 6
 
+            m_consolidada = ((assi_total + pontulidade + planejamento + aulas + avaliacao + postura)/qt)/2
+
             print(m_assiduidade)
             print(m_geral)
 
@@ -443,6 +445,7 @@ def avindividual(request, id_docente):
                        'm_postura': m_postura,
                        'qt': qt,
                        'm_geral': m_geral,
+                       'm_consolidada': m_consolidada,
                        }
         return render(request, 'avadoc/ver_avindivual.html', context)
     else:
@@ -474,3 +477,6 @@ def filtro_avalia(request):
         return render(request, 'avadoc/index.html', {'f': f})
     else:
         return render(request, "avadoc/pag_erro.html")
+
+def media_con(request):
+    return render()
