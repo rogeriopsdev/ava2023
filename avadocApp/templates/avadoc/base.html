@@ -118,7 +118,7 @@
                         <li class="dropdown-divider"></li>
 
                         <li>
-                            <form action="{% url 'logout' %}" method="post">
+                            <form method="POST" action="{% url 'logout' %}" >
                                 {% csrf_token %}
 
                                 <li>
