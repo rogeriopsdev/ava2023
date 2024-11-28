@@ -28,6 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['avadoc-syk9mjrh.b4a.run']
 CSRF_TRUSTED_ORIGINS = ['https://avadoc-syk9mjrh.b4a.run']
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
 
 
 
