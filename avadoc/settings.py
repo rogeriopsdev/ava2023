@@ -24,8 +24,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = 'django-insecure-4q(u(seoy7_rzk_1u!=#$i_c1z@_=5(w0igwu6@h7tioi*_+03'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = False
 ALLOWED_HOSTS = ['avadoc-syk9mjrh.b4a.run']
 CSRF_TRUSTED_ORIGINS = ['https://avadoc-syk9mjrh.b4a.run']
 CSRF_COOKIE_SECURE = True
