@@ -2,7 +2,7 @@ from django import forms
 from django.db.models import fields
 from .models import Docente,Discente,Diario,Campi, Curso, Componente, Nivel, Avadoc
 
-
+# aqui é massa
 class DocenteForm(forms.ModelForm):
     class Meta:
         model=Docente
